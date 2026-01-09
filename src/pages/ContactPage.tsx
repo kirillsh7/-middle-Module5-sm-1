@@ -1,18 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { ContactCard } from 'src/components/ContactCard'
 import { Empty } from 'src/components/Empty'
-import { useAppSelector } from 'src/redux/hooks/hooks'
+import { useAppSelector } from 'src/hooks/hooks'
 
 export const ContactPage = () => {
   const contactsState = useAppSelector(state => state.contacts)
   const { contactId } = useParams<{ contactId: string }>()
   const [contact, setContact] = useState<ContactDto>()
 
+  const foundContact = useMemo(() => {
+    return contactsState.find(({ id }) => id === contactId)
+  }, [contactId, contactsState])
+
   useEffect(() => {
-    setContact(() => contactsState.find(({ id }) => id === contactId))
+    setContact(foundContact)
   }, [contactId])
 
   return (

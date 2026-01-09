@@ -6,7 +6,7 @@ import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import { Empty } from 'src/components/Empty'
 import { ContactCard } from 'src/components/ContactCard'
-import { useAppSelector } from 'src/redux/hooks/hooks'
+import { useAppSelector } from 'src/hooks/hooks'
 
 export const GroupPage = memo(() => {
   const contactsState = useAppSelector(state => state.contacts)
@@ -15,15 +15,18 @@ export const GroupPage = memo(() => {
   const [contacts, setContacts] = useState<ContactDto[]>([])
   const [groupContacts, setGroupContacts] = useState<GroupContactsDto>()
 
+  const findGroup = groupContactsState.find(({ id }) => id === groupId)
+
+  const foundContact = () => {
+    if (findGroup) {
+      return contactsState.filter(({ id }) => findGroup.contactIds.includes(id))
+    }
+    return []
+  }
+
   useEffect(() => {
-    const findGroup = groupContactsState.find(({ id }) => id === groupId)
     setGroupContacts(findGroup)
-    setContacts(() => {
-      if (findGroup) {
-        return contactsState.filter(({ id }) => findGroup.contactIds.includes(id))
-      }
-      return []
-    })
+    setContacts(foundContact())
   }, [groupId])
 
   return (
