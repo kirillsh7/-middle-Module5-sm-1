@@ -11,6 +11,7 @@
     "@types/react": "18.2.74",
     "@types/react-dom": "18.2.1",
     "@types/redux-devtools-extension": "^2.13.0",
+    "@types/redux-persist": "^4.0.0",
     "axios": "1.4.0",
     "bootstrap": "5.2.3",
     "formik": "2.2.9",

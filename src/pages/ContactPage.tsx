@@ -4,10 +4,10 @@ import { useParams } from 'react-router-dom'
 import { ContactDto } from 'src/types/dto/ContactDto'
 import { ContactCard } from 'src/components/ContactCard'
 import { Empty } from 'src/components/Empty'
-import { useAppSelector } from 'src/hooks/hooks'
+import { useGetContactsQuery } from 'src/store/slice'
 
 export const ContactPage = () => {
-  const contactsState = useAppSelector(state => state.contacts)
+  const { data: contactsState = [] } = useGetContactsQuery()
   const { contactId } = useParams<{ contactId: string }>()
   const [contact, setContact] = useState<ContactDto>()
 

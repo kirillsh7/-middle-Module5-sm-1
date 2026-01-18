@@ -2,11 +2,12 @@ import { memo, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { ContactCard } from 'src/components/ContactCard'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { useAppSelector } from 'src/hooks/hooks'
+import { useGetContactsQuery } from 'src/store/slice'
+import { useFavoriteSelector } from 'src/store/selector/useFavoriteSelector'
 
 export const FavoritListPage = memo(() => {
-  const contactsState = useAppSelector(state => state.contacts)
-  const favoriteContactsState = useAppSelector(state => state.favorite)
+  const { data: contactsState = [] } = useGetContactsQuery()
+  const favoriteContactsState = useFavoriteSelector()
   const [contacts, setContacts] = useState<ContactDto[]>([])
   const filteredContactState = contactsState.filter(({ id }) => favoriteContactsState.includes(id))
 

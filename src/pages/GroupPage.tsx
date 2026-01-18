@@ -6,11 +6,11 @@ import { GroupContactsDto } from 'src/types/dto/GroupContactsDto'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
 import { Empty } from 'src/components/Empty'
 import { ContactCard } from 'src/components/ContactCard'
-import { useAppSelector } from 'src/hooks/hooks'
+import { useGetContactsQuery, useGetGroupContactsQuery } from 'src/store/slice'
 
 export const GroupPage = memo(() => {
-  const contactsState = useAppSelector(state => state.contacts)
-  const groupContactsState = useAppSelector(state => state.groups)
+  const { data: contactsState = [] } = useGetContactsQuery()
+  const { data: groupContactsState = [] } = useGetGroupContactsQuery()
   const { groupId } = useParams<{ groupId: string }>()
   const [contacts, setContacts] = useState<ContactDto[]>([])
   const [groupContacts, setGroupContacts] = useState<GroupContactsDto>()

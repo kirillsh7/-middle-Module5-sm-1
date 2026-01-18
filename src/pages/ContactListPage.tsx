@@ -1,17 +1,21 @@
-import { memo, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { ContactCard } from 'src/components/ContactCard'
 import { FilterForm, FilterFormValues } from 'src/components/FilterForm'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { useAppSelector } from 'src/hooks/hooks'
+import { useGetContactsQuery, useGetGroupContactsQuery } from 'src/store/slice'
 
 export const ContactListPage = memo(() => {
-  const contactsState = useAppSelector(state => state.contacts)
-  const groupContactsState = useAppSelector(state => state.groups)
-  const [contacts, setContacts] = useState<ContactDto[]>(contactsState)
+  const { data: contactsState = [], isLoading: isLoadingContacts } = useGetContactsQuery()
+  const { data: groupContactsState = [], isLoading: isLoadingGroups } = useGetGroupContactsQuery()
+  const [contacts, setContacts] = useState<ContactDto[]>([])
+
+  useEffect(() => {
+    setContacts(contactsState)
+  }, [])
+
   const onSubmit = (filterValues: Partial<FilterFormValues>) => {
     let findContacts: ContactDto[] = contactsState
-
     if (filterValues.name) {
       const fvName = filterValues.name.toLowerCase()
       findContacts = findContacts.filter(({ name }) => name.toLowerCase().indexOf(fvName) > -1)
@@ -26,6 +30,15 @@ export const ContactListPage = memo(() => {
     }
 
     setContacts(findContacts)
+  }
+  if (isLoadingContacts || isLoadingGroups) {
+    return (
+      <Row xxl={1}>
+        <Col>
+          <div className='text-center p-5'>Загрузка контактов...</div>
+        </Col>
+      </Row>
+    )
   }
 
   return (

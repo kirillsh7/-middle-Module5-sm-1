@@ -1,10 +1,10 @@
 import React, { memo } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { GroupContactsCard } from 'src/components/GroupContactsCard'
-import { useAppSelector } from 'src/hooks/hooks'
+import { useGetGroupContactsQuery } from 'src/store/slice'
 
 export const GroupListPage = memo(() => {
-  const groupContactsState = useAppSelector(state => state.groups)
+  const { data: groupContactsState = [] } = useGetGroupContactsQuery()
   return (
     <Row xxl={4}>
       {groupContactsState.map(groupContacts => (
