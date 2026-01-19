@@ -5,7 +5,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import { persistStore } from 'redux-persist'
 
 const rootReducer = persistReducer(
-  { key: 'redux', storage: storage, throttle: 100000 },
+  { key: 'redux', storage, throttle: 1000 },
   combineReducers({
     favorite: favoriteContactReducer,
     [contactsApiSlice.reducerPath]: contactsApiSlice.reducer,
@@ -26,9 +26,4 @@ const store = configureStore({
 })
 export default store
 
-export type RootState = ReturnType<typeof store.getState>
-
 export const persistor = persistStore(store)
-
-// @ts-ignore
-window.persistor = persistor
