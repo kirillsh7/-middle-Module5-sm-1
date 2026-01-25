@@ -1,18 +1,16 @@
-import { memo, useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { ContactCard } from 'src/components/ContactCard'
 import { FilterForm, FilterFormValues } from 'src/components/FilterForm'
 import { ContactDto } from 'src/types/dto/ContactDto'
-import { useGetContactsQuery, useGetGroupContactsQuery } from 'src/store/slice'
+import { observer } from 'mobx-react-lite'
+import { contactStore, groupContactStore } from 'src/store'
 
-export const ContactListPage = memo(() => {
-  const { data: contactsState = [], isLoading: isLoadingContacts } = useGetContactsQuery()
-  const { data: groupContactsState = [], isLoading: isLoadingGroups } = useGetGroupContactsQuery()
+export const ContactListPage = observer(() => {
+  const contactsState = contactStore.contacts
+  const groupContactsState = groupContactStore.groupContact
+
   const [contacts, setContacts] = useState<ContactDto[]>([])
-
-  useEffect(() => {
-    setContacts(contactsState)
-  }, [])
 
   const onSubmit = (filterValues: Partial<FilterFormValues>) => {
     let findContacts: ContactDto[] = contactsState
@@ -30,15 +28,6 @@ export const ContactListPage = memo(() => {
     }
 
     setContacts(findContacts)
-  }
-  if (isLoadingContacts || isLoadingGroups) {
-    return (
-      <Row xxl={1}>
-        <Col>
-          <div className='text-center p-5'>Загрузка контактов...</div>
-        </Col>
-      </Row>
-    )
   }
 
   return (

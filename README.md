@@ -4,7 +4,7 @@
 
 ![React](https://img.shields.io/badge/React-18-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)
-![Redux](https://img.shields.io/badge/Redux-Toolkit-purple)
+![Mobx](https://mobx.js.org/README.html)
 ![Vite](https://img.shields.io/badge/Vite-5.0-orange)
 
 ## 🚀 О проекте
@@ -29,11 +29,11 @@
 
 - **Frontend Framework**: React 18
 - **Language**: TypeScript
-- **State Management**: Redux Toolkit + RTK Query
-- **Data Persistence**: Redux Persist
+- **State Management**: Mobx
+- **Data Persistence**: Mobx Persist
 - **Styling**: React Bootstrap, CSS Modules
 - **Build Tool**: Webpack
-- **HTTP Client**: Fetch API через RTK Query
+- **HTTP Client**: Fetch API через Mobx
 - **Routing**: React Router DOM
 
 ## 📦 Установка и запуск
